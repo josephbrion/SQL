@@ -1,0 +1,40 @@
+SELECT *
+FROM superstore;
+--all the data in the set
+
+SELECT item_name, price
+FROM superstore
+ORDER BY price desc;
+--1. Lists the items by price in descending order
+
+SELECT SUM (price)
+FROM superstore;
+--2. SUM
+
+SELECT AVG (price)
+FROM superstore;
+--2. AVG
+
+SELECT MIN (price)
+FROM superstore;
+--2. Min
+
+SELECT MAX (price)
+FROM superstore;
+--2. Max
+
+SELECT COUNT (item_name)
+FROM superstore;
+--2. Count (15 total items)
+
+SELECT AVG (price), category
+FROM superstore
+WHERE category = 'Kitchen Supplies';
+--3. Average price of all items pertaining to Kitchen Supplies
+
+--QUESTION: What is the average rating of all categories?
+SELECT average_rating, category
+FROM superstore
+GROUP BY category
+ORDER BY average_rating desc;
+--The average rating of all categories in descending order
