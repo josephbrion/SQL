@@ -1,0 +1,34 @@
+--Which industries have the average of the average employee tenure and the average paid time off days?
+
+SELECT industry, avg_employee_tenure, paid_time_off_days
+FROM fortune_companies
+GROUP BY industry
+HAVING avg_employee_tenure >=(SELECT AVG (avg_employee_tenure) FROM fortune_companies) AND AVG (paid_time_off_days) >=(SELECT AVG (paid_time_off_days) FROM fortune_companies);
+
+--Finding out Which companies have the avereage paid time of days as well as healthcare benefits
+SELECT company_name, employees, paid_time_off_days AS PTO_Days, healthcare_benefits
+FROM fortune_companies
+WHERE paid_time_off_days >=(SELECT AVG (paid_time_off_days) FROM fortune_companies) AND healthcare_benefits = 1
+GROUP BY company_name
+ORDER BY employees desc;
+
+--Which companies hit the average paid time off days and have health care benefits.
+--Companies with both = excellent
+--Companies with at least 1 = subpar
+--Companies with neither = terrible
+--Call it "Employee Happiness"
+
+SELECT company_name, paid_time_off_days, healthcare_benefits,
+CASE WHEN paid_time_off_days >=(SELECT AVG (paid_time_off_days) FROM fortune_companies) AND healthcare_benefits =1 THEN 'Excellent'
+WHEN paid_time_off_days >=(SELECT AVG (paid_time_off_days) FROM fortune_companies) AND healthcare_benefits =0 THEN 'Subpar'
+WHEN paid_time_off_days <=(SELECT AVG (paid_time_off_days) FROM fortune_companies) AND healthcare_benefits =1 THEN 'Subpar'
+ELSE 'Terrible' END AS Employee_Happiness
+FROM fortune_companies
+GROUP BY company_name;
+
+--Which industries produced the average (or more) revenue?
+
+SELECT industry, revenue
+FROM fortune_companies
+GROUP BY industry
+HAVING revenue >= ROUND (AVG (revenue),1);
